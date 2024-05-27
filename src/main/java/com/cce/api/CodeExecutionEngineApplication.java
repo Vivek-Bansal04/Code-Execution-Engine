@@ -34,7 +34,7 @@ public class CodeExecutionEngineApplication {
 				"    }\n" +
 				"}";
 
-		System.out.println(CodeExecutionImpl.execute(javaCode));
+//		System.out.println(CodeExecutionServiceImpl.execute(javaCode));
 	}
 
 }
