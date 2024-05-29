@@ -1,14 +1,11 @@
 package com.cce.api.service;
 
-import com.cce.api.DockerConfiguration;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
-import com.github.dockerjava.api.command.PullImageResultCallback;
 import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.Volume;
-import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.ExecStartResultCallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,14 +63,12 @@ public class DockerContainerMangagerImpl implements DockerContainerManager{
             // Start the container
             dockerClient.startContainerCmd(container.getId()).exec();
 
-            // Execute the run script
             ExecCreateCmdResponse execResponse = dockerClient.execCreateCmd(container.getId())
                     .withAttachStdout(true)
                     .withAttachStderr(true)
                     .withCmd("/app/run.sh")
                     .exec();
 
-            // Capture the output
             StringBuilder outputBuilder = new StringBuilder();
             dockerClient.execStartCmd(execResponse.getId()).exec(new ExecStartResultCallback() {
                 @Override
@@ -82,7 +77,6 @@ public class DockerContainerMangagerImpl implements DockerContainerManager{
                 }
             }).awaitCompletion();
 
-            // Stop and remove the container
             // can add this to a queue to stop container
             dockerClient.stopContainerCmd(container.getId()).exec();
             dockerClient.removeContainerCmd(container.getId()).exec();
@@ -100,7 +94,6 @@ public class DockerContainerMangagerImpl implements DockerContainerManager{
             e.printStackTrace();
             output = "Error: " + e.getMessage();
         }
-        System.out.println(output);
         return output;
     }
 }
