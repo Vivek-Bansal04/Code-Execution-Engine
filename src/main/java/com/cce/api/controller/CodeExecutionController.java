@@ -23,6 +23,7 @@ public class CodeExecutionController {
     public String createApprovalRequest(
             @RequestBody String code
     ) {
-        return codeExecutionService.executeCode1(code);
+        //for testing purpose
+        return codeExecutionService.executeCode(code);
     }
 }
