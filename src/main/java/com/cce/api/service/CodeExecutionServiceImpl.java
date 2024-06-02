@@ -3,6 +3,7 @@ package com.cce.api.service;
 import com.cce.api.entity.Language;
 import com.cce.api.entity.ResultStore;
 import com.cce.api.repository.ResultStoreRepository;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class CodeExecutionServiceImpl implements CodeExecutionService {
     }
 
     @Override
+    @RabbitListener(queues = "${CODE_SUBMISSION_QUEUE_NAME}")
     public String executeCode(String code) {
         //do necessary validations here
 //        String output = dockerContainerManager.executeCodeInContainer(code);
