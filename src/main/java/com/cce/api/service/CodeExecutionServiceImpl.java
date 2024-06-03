@@ -1,5 +1,6 @@
 package com.cce.api.service;
 
+import com.cce.api.dto.CodeInput;
 import com.cce.api.entity.Language;
 import com.cce.api.entity.ResultStore;
 import com.cce.api.repository.ResultStoreRepository;
@@ -24,17 +25,32 @@ public class CodeExecutionServiceImpl implements CodeExecutionService {
 
     @Override
     @RabbitListener(queues = "${CODE_SUBMISSION_QUEUE_NAME}",containerFactory = "customContainerFactory")
-    public String executeCode(String code) {
+    public void executeCode(CodeInput request) {
         //do necessary validations here
 //        String output = dockerContainerManager.executeCodeInContainer(code);
         String output = "";
+        ResultStore result = prepareResult(output, request.getSubmissionId(), request.getLang());
+
+        //repository.save(result);
+    }
+
+    public String testCodeExecution(String code){
+        String output = dockerContainerManager.executeCodeInContainer(code);
         ResultStore result = new ResultStore();
         result.setLanguage(Language.JAVA);
         result.setOutput("Successful");
         result.setSubmissionId(UUID.randomUUID().toString());
         result.setId(UUID.randomUUID());
-//        repository.save(result);
-        System.out.println(result + " check");
+        repository.save(result);
         return output;
+    }
+
+    private ResultStore prepareResult(String output,String submissionId,Language language){
+        ResultStore result = new ResultStore();
+        result.setLanguage(language);
+        result.setOutput("Successful");
+        result.setSubmissionId(submissionId);
+        result.setId(UUID.randomUUID());
+        return result;
     }
 }
