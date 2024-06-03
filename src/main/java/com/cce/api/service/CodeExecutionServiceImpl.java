@@ -23,7 +23,7 @@ public class CodeExecutionServiceImpl implements CodeExecutionService {
     }
 
     @Override
-    @RabbitListener(queues = "${CODE_SUBMISSION_QUEUE_NAME}")
+    @RabbitListener(queues = "${CODE_SUBMISSION_QUEUE_NAME}",containerFactory = "customContainerFactory")
     public String executeCode(String code) {
         //do necessary validations here
 //        String output = dockerContainerManager.executeCodeInContainer(code);
@@ -33,7 +33,8 @@ public class CodeExecutionServiceImpl implements CodeExecutionService {
         result.setOutput("Successful");
         result.setSubmissionId(UUID.randomUUID().toString());
         result.setId(UUID.randomUUID());
-        repository.save(result);
+//        repository.save(result);
+        System.out.println(result + " check");
         return output;
     }
 }
