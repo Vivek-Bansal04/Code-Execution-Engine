@@ -24,6 +24,6 @@ public class CodeExecutionController {
             @RequestBody String code
     ) {
         //for testing purpose
-        return codeExecutionService.executeCode(code);
+        return codeExecutionService.testCodeExecution(code);
     }
 }

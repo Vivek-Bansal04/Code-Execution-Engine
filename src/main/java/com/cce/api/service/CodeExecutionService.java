@@ -1,4 +1,8 @@
 package com.cce.api.service;
+
+import com.cce.api.dto.CodeInput;
+
 public interface CodeExecutionService {
-    String executeCode(String code);
+    void executeCode(CodeInput code);
+    String testCodeExecution(String code);
 }

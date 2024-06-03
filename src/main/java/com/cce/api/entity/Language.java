@@ -1,7 +1,8 @@
 package com.cce.api.entity;
 
 public enum Language {
-    JAVA("Java");
+    JAVA("Java"),
+    CPP("cpp");
 
     private final String value;
 
