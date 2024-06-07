@@ -33,7 +33,7 @@ public class CodeExecutionServiceImpl implements CodeExecutionService {
     }
 
     @Override
-    @RabbitListener(queues = "${CODE_SUBMISSION_QUEUE_NAME}",containerFactory = "customContainerFactory")
+    @RabbitListener(queues = "${JAVA_CODE_SUBMISSION_QUEUE_NAME}",containerFactory = "customContainerFactory")
     public void executeCode(CodeInput request) {
         //spring aop for global logs
         log.info("request {}",request);
